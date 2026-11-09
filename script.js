@@ -1,57 +1,56 @@
-import {aleatorio,nome} from './aleatorio.js';
-import {perguntas} from './perguntas.js';
+import { perguntas } from './perguntas.js';
+import { nome } from './aleatorio.js';
 
-const caixaPrincipal = document.querySelector(".caixa-principal");
-const caixaPerguntas = document.querySelector(".caixa-perguntas");
+const caixaPerguntas = document.querySelector("#frase");
 const caixaAlternativas = document.querySelector(".caixa-alternativas");
-const caixaResultado = document.querySelector(".caixa-resultado");
-const textoResultado = document.querySelector(".texto-resultado");
-const botaoJogarNovamente = document.querySelector(".novamente-btn");
-
+const btnGerar = document.querySelector("#btn-gerar");
 
 let atual = 0;
 let perguntaAtual;
-let historiaFinal = "";
 
 function mostraPergunta() {
-  if (atual >= perguntas.length) {
-    mostraResultado();
-    return;
-  }
-  perguntaAtual = perguntas[atual];
-  caixaPerguntas.textContent = perguntaAtual.enunciado;
-  caixaAlternativas.textContent = "";
-  mostraAlternativas();
+    // Se respondeu todas as perguntas
+    if (atual >= perguntas.length) {
+        caixaPerguntas.textContent = `Parabéns, ${nome}! Você concluiu sua jornada na Medicina Veterinária.`;
+        caixaAlternativas.innerHTML = ""; // Limpa as alternativas
+        
+        // Cria o botão "Tente novamente"
+        const btnReiniciar = document.createElement("button");
+        btnReiniciar.textContent = "Tente novamente";
+        btnReiniciar.addEventListener("click", reiniciarJornada);
+        caixaAlternativas.appendChild(btnReiniciar);
+        return;
+    }
+
+    perguntaAtual = perguntas[atual];
+    caixaPerguntas.textContent = perguntaAtual.enunciado;
+    caixaAlternativas.innerHTML = ""; // Limpa os botões anteriores
+    
+    mostraAlternativas();
 }
 
 function mostraAlternativas() {
-  for (const alternativa of perguntaAtual.alternativas) {
-    const botaoAlternativas = document.createElement("button");
-    botaoAlternativas.textContent = alternativa.texto;
-    botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
-    caixaAlternativas.appendChild(botaoAlternativas);
-  }
+    for (const alternativa of perguntaAtual.alternativas) {
+        const botaoAlternativa = document.createElement("button");
+        botaoAlternativa.textContent = alternativa.texto;
+        botaoAlternativa.addEventListener("click", () => respostaSelecionada(alternativa));
+        caixaAlternativas.appendChild(botaoAlternativa);
+    }
 }
 
 function respostaSelecionada(opcaoSelecionada) {
-  const afirmacoes = aleatorio(opcaoSelecionada.afirmacao);
-  historiaFinal += afirmacoes + " ";
-  atual++;
-  mostraPergunta();
+    atual++;
+    mostraPergunta();
 }
 
-function mostraResultado() {
-  caixaPerguntas.textContent = `Em 2049
-  textoResultado.textContent = historiaFinal;
-  caixaAlternativas.textContent = "";
-  caixaResultado.classList.add("mostrar");
-  botaoJogarNovamente.addEventListener("click", jogaNovamente);
+// Função para reiniciar o questionário
+function reiniciarJornada() {
+    atual = 0;
+    mostraPergunta();
 }
 
-function jogaNovamente(){
-  atual = 0;
-  historiaFinal = "";
-  caixaResultado.classList.remove("mostrar");
-  mostraPergunta();
-}
-mostraPergunta();
+// Clique no botão inicial
+btnGerar.addEventListener("click", () => {
+    btnGerar.style.display = "none"; // Esconde o botão inicial
+    mostraPergunta();
+});
