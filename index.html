@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Você decide o futuro da IA</title>
+    <title>Jornada Veterinária</title>
 </head>
 <body>
     <div class="caixa-principal">
-        <h1>Você decide o futuro da IA</h1>
-        <div class="caixa-perguntas"></div>
-        <div class="caixa-alternativas"></div>
-        <div class="caixa-resultado">
-            <p class="texto-resultado"></p>
-            <button class ="novamente-btn">Jogar novamente</button>
+        <h1>Jornada na Medicina Veterinária</h1>
+        
+        <div class="caixa-conteudo">
+            <p id="frase">Clique no botão abaixo para iniciar sua jornada veterinária!</p>
+            <span id="autor"></span>
+            
+            <!-- Esta div é essencial para exibir os botões de resposta -->
+            <div class="caixa-alternativas"></div>
         </div>
+
+        <button id="btn-gerar">Iniciar Escolha</button>
     </div>
+
+    <script type="module" src="js/script.js"></script>
     <script type="module" src="js/aleatorio.js"></script>
     <script type="module" src="js/perguntas.js"></script>
-  <script type="module" src="js/script.js"></script>
 </body>
 </html>
